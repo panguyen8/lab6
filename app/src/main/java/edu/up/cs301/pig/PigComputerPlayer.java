@@ -1,6 +1,8 @@
 package edu.up.cs301.pig;
 
 import edu.up.cs301.game.GameComputerPlayer;
+import edu.up.cs301.game.GamePlayer;
+import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.game.util.Tickable;
@@ -29,6 +31,24 @@ public class PigComputerPlayer extends GameComputerPlayer {
     @Override
     protected void receiveInfo(GameInfo info) {
         // TODO  You will implement this method
+
+        if(info instanceof PigGameState) {
+            PigGameState test = new PigGameState((PigGameState) info);
+            if (test.getPlayerId() == playerNum) {
+                int percent = (int) (Math.random() * 2);
+                if (percent == 1) {
+                    PigHoldAction holdAction = new PigHoldAction(this);
+                    game.sendAction(holdAction);
+                } else {
+                    PigRollAction rollAction = new PigRollAction(this);
+                    game.sendAction(rollAction);
+                }
+            } else {
+                return;
+            }
+        } else {
+            return;
+        }
     }//receiveInfo
 
 }
