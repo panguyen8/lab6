@@ -48,27 +48,34 @@ public class PigLocalGame extends LocalGame {
     protected boolean makeMove(GameAction action) {
         //TODO  You will implement this method
         if(action instanceof PigHoldAction){
-            if(currentState.getPlayerId() == 0) {
+            if (currentState.getPlayerId() == 0) {
                 currentState.setPlayerOneScore(currentState.getRunningTotal() + currentState.getPlayerOneScore());
-                currentState.setPlayerId(1);
-            }
-            else {
+            } else {
                 currentState.setPlayerTwoScore(currentState.getRunningTotal() + currentState.getPlayerTwoScore());
-                currentState.setPlayerId(0);
             }
             currentState.setRunningTotal(0);
+
+            if(playerNames.length == 2) {
+                if (currentState.getPlayerId() == 0) {
+                    currentState.setPlayerId(1);
+                } else {
+                    currentState.setPlayerId(0);
+                }
+                currentState.setRunningTotal(0);
+            }
             return true;
         }
         else if(action instanceof PigRollAction) {
-            currentState.setDieValue((int) Math.random()*6 + 1);
+            currentState.setDieValue((int) (Math.random()*6 + 1));
             currentState.setRunningTotal(currentState.getRunningTotal() + currentState.getDieValue());
 
-            if(currentState.getDieValue() == 1){
-                if(currentState.getPlayerId() == 0){
-                    currentState.setPlayerId(1);
-                }
-                else{
-                    currentState.setPlayerId(0);
+            if (currentState.getDieValue() == 1) {
+                if(playerNames.length == 2){
+                    if (currentState.getPlayerId() == 0) {
+                        currentState.setPlayerId(1);
+                    } else {
+                        currentState.setPlayerId(0);
+                    }
                 }
                 currentState.setRunningTotal(0);
             }
